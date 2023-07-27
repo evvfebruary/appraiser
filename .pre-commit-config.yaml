@@ -1,0 +1,35 @@
+repos:
+  # Uncompromised formatter
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        entry: black
+        language: python
+        types: ['python']
+        language_version: python3.11
+        args: [ '--line-length=80', '--preview']
+      - id: mypy
+        name: mypy
+        entry: "mypy"
+        language: python
+        language_version: python3.11
+        types: [ python ]
+        require_serial: true
+        verbose: true
+    # Familiar linter ( sure about this one )
+  - repo: https://github.com/pycqa/flake8
+    rev: c8d75d9
+    hooks:
+      - id: flake8
+#        exclude: ... # Temporary turn off linter
+        additional_dependencies: [ flake8-docstrings ]
+        args: ['--max-line-length=120', '--ignore=D102,D107,D101,D100,D104,F541,D103'] # Temporary ignore docstring missing
+  # Fancy way to sort import libraries
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        name: isort (python)
+        args: ['--profile', 'black']
+

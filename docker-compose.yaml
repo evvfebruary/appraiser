@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    restart: always
+    ports:
+      - "28123:27017"
+    volumes:
+      - mongodb-data:/data/db
+    env_file:
+      - .env
+    command: [--auth]
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongodb-express
+    restart: always
+    depends_on:
+      - mongodb
+    ports:
+      - "8081:8081"
+    env_file:
+      - .env
+
+
+volumes:
+  mongodb-data:

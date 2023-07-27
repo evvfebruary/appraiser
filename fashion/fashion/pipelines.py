@@ -1,10 +1,10 @@
 from enum import StrEnum
+from typing import Any
 
 import pymongo
 from itemadapter import ItemAdapter
-from scrapy.pipelines.files import GCSFilesStore
 
-from fashion.fashion.database import MONGO_INSERT_MODE, InsertModes
+from fashion.fashion.database.config import MONGO_INSERT_MODE, InsertModes
 from fashion.fashion.database.handlers import insert_many, insert_one
 
 
@@ -16,7 +16,7 @@ class InsertMode(StrEnum):
 class MongoPipeline:
     INSERT_MODE = MONGO_INSERT_MODE
     collection_name = "scrapy_items"
-    items_to_insert = []
+    items_to_insert: list[dict[str, Any]] = []
 
     def __init__(self, mongo_uri, mongo_db, batch_size: int = 10):
         self.db_handlers = None
