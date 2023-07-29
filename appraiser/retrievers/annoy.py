@@ -1,20 +1,22 @@
 import os
 import pickle
+from operator import itemgetter
 
+import tqdm
 from annoy import AnnoyIndex
 from loguru import logger
-from operator import itemgetter
-from appraiser.retrievers.retriever import Retriever, Extractor
-import tqdm
+
+from appraiser.retrievers.retriever import Extractor, Retriever
 
 
 class AnnoyRetriever(Retriever):
-
     def __init__(self, label: str, feature_extractor: Extractor, vector_size):
         super().__init__(label, feature_extractor)
         self.idx_x_path = None
-        self.annoy_indexer = AnnoyIndex(vector_size, 'angular')
-        self.idx_x_meta_path = os.path.join(self.label_save_dir, f'idx_x_meta_path_{feature_extractor.__name__}')
+        self.annoy_indexer = AnnoyIndex(vector_size, "angular")
+        self.idx_x_meta_path = os.path.join(
+            self.label_save_dir, f"idx_x_meta_path_{feature_extractor.__name__}"
+        )
         self.vectors_base = self.initialize_vector_base()
 
     def get_cached_vectors(self):
@@ -22,7 +24,7 @@ class AnnoyRetriever(Retriever):
         if not cached_buffer_exists:
             return None
         else:
-            with open(self.idx_x_meta_path, 'rb') as meta_file:
+            with open(self.idx_x_meta_path, "rb") as meta_file:
                 self.idx_x_path = pickle.load(meta_file)
             vectors = self.annoy_indexer.load(self.vectors_full_path)
             return vectors
@@ -41,7 +43,7 @@ class AnnoyRetriever(Retriever):
 
         if not os.path.exists(self.label_save_dir):
             os.mkdir(self.label_save_dir)
-        with open(self.idx_x_meta_path, 'wb') as file:
+        with open(self.idx_x_meta_path, "wb") as file:
             pickle.dump(idx_x_path, file)
         self.annoy_indexer.build(50)  # Choose right number of tree later
         self.annoy_indexer.save(self.vectors_full_path)

@@ -27,7 +27,7 @@ MONGODB_PASS, MONGODB_USER = (
 TSUM_PARSER_SETTINGS = {
     "ITEM_PIPELINES": {
         "scrapy.pipelines.images.ImagesPipeline": 1,
-        "fashion.fashion.pipelines.MongoPipeline": 2,
+        "fashion.pipelines.MongoPipeline": 2,
     },
     "MONGO_URI": f"mongodb://{MONGODB_USER}:{MONGODB_PASS}@127.0.0.1:28123/",
     "MONGO_DATABASE": "clothes",

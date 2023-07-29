@@ -1,16 +1,9 @@
-from enum import StrEnum
 from typing import Any
 
 import pymongo
+from fashion.database.config import MONGO_INSERT_MODE, InsertModes
+from fashion.database.handlers import insert_many, insert_one
 from itemadapter import ItemAdapter
-
-from fashion.fashion.database.config import MONGO_INSERT_MODE, InsertModes
-from fashion.fashion.database.handlers import insert_many, insert_one
-
-
-class InsertMode(StrEnum):
-    MANY: str = "many"
-    SINGLE: str = "single"
 
 
 class MongoPipeline:

@@ -2,9 +2,8 @@ import re
 
 import scrapy
 from dotenv import load_dotenv
-
-from fashion.fashion.items import FashionItem
-from fashion.fashion.settings import TSUM_PARSER_SETTINGS
+from fashion.items import FashionItem
+from fashion.settings import TSUM_PARSER_SETTINGS
 
 load_dotenv()
 
